@@ -64,10 +64,197 @@
         }
     }
     
+    function selectAllFromStudents(){
+        $sql1 = "SELECT id, name, surname, age, status FROM STUDENTS";
+        $result = $GLOBALS['conn'] -> query($sql1);
+
+        if($result->num_rows){
+            while($row = $result->fetch_assoc()){
+                echo $row["name"] . " ". $row["surname"] . " ". $row["age"] . " ". $row["status"] . PHP_EOL;
+            }
+        }
+        else{
+            echo "students table empty";
+        }
+
+    }
+
+    function selectAllFromProfessors(){
+        $sql1 = "SELECT id, name, surname, age, title, department FROM PROFESSORS";
+        $result = $GLOBALS['conn'] -> query($sql1);
+
+        if($result->num_rows){
+            while($row = $result->fetch_assoc()){
+                echo $row["name"] . " ". $row["surname"] . " ". $row["age"] . " ". $row["title"] . " ". $row["department"]. PHP_EOL;
+                
+            }
+        }
+        else{
+            echo "prof table empty";
+        }
+    }
+
+    function selectStudents($choice){
+        $sql1 = "SELECT id, name, surname, age, status FROM STUDENTS";
+        $result = $GLOBALS['conn'] -> query($sql1);
+
+        if($result->num_rows){
+            while($row = $result->fetch_assoc()){
+                switch($choice){
+                    case $choice == ">20" && $row["age"] >=20:
+                        echo $row["name"] . " ". $row["surname"] . " ". $row["age"] . " ". $row["status"] . PHP_EOL;
+                    break;
+                    case $choice == "redovan" && $row["status"] == "redovan":
+                        echo $row["name"] . " ". $row["surname"] . " ". $row["age"] . " ". $row["status"] . PHP_EOL;
+
+                }
+            }
+        }
+        else{
+            echo "students table empty";
+        }
+    }
+
+    function selectProfessor($choice){
+        $sql1 = "SELECT id, name, surname, age, title, department FROM PROFESSORS";
+        $result = $GLOBALS["conn"] -> query($sql1);
+
+        if($result->num_rows > 0){
+            while($row = $result -> fetch_assoc()){
+                switch($choice){
+                    case $choice == "IT" && $row["department"] == "IT":
+                        echo $row["name"] . " ". $row["surname"] . " ". $row["age"] . " ". $row["title"] . " ". $row["department"]. PHP_EOL;
+                    break;
+                    case $choice == "ITAndD" && $row["department"] == "IT" && $row["title"] == "docent":
+                        echo $row["name"] . " ". $row["surname"] . " ". $row["age"] . " ". $row["title"] . " ". $row["department"]. PHP_EOL;
+                }
+            }
+        }
+        else{
+            echo "professor table is empty";
+        }
+    }
+
+    function updateStudent($choice){
+        $sql1 = "SELECT id, name, surname, age, status FROM STUDENTS";
+        $result = $GLOBALS["conn"] -> query($sql1);
+
+        if ($result -> num_rows > 0){
+            while($row = $result ->fetch_assoc()){
+                switch($choice){
+                    case $choice == 1 && $row["age"] >=24:
+                        $sql_update = "UPDATE Students SET status='apsolvent' WHERE id=". $row["id"] ."";
+                        if($GLOBALS["conn"]->query($sql_update)){
+                            echo "update sucessful\n";
+                        }
+                        else{
+                            echo "update unsucessful\n";
+                        }
+                    break;
+                    case $choice == 0:
+                        echo "hey";
+                }
+            }
+
+        }
+        else{
+            echo "studnt table is empty";
+        }
+
+    }
+
+    function updateProfessor($choice){
+        $sql1 = "SELECT id, name, surname, age, title, department FROM PROFESSORS";
+        $result = $GLOBALS["conn"] -> query($sql1);
+
+        if ($result -> num_rows > 0){
+            while($row = $result ->fetch_assoc()){
+                switch($choice){
+                    case $choice == 1 && $row["title"] == "docent":
+                        $sql_update = "UPDATE Professors SET department='management' WHERE id=". $row["id"] ."";
+                        if($GLOBALS["conn"]->query($sql_update)){
+                            echo "update sucessful\n";
+                        }
+                        else{
+                            echo "update unsucessful\n";
+                        }
+                    break;
+                    case $choice == 0:
+                        echo "hey";
+                }
+            }
+
+        }
+        else{
+            echo "studnt table is empty";
+        }
+    }
+
+    function deleteStudent($choice){
+        $sql1 = "SELECT id, name, surname, age, status FROM STUDENTS";
+        $result = $GLOBALS["conn"] -> query($sql1);
+
+        if ($result -> num_rows > 0){
+            while($row = $result ->fetch_assoc()){
+                switch($choice){
+                    case $choice == 1 && $row["status"] == "neregistrovani":
+                        $sql_update = "DELETE FROM Students WHERE id=". $row["id"] ."";
+                        if($GLOBALS["conn"]->query($sql_update)){
+                            echo "student deletition sucessful\n";
+                        }
+                        else{
+                            echo "student deletition unsucessful\n";
+                        }
+                    break;
+                    case $choice == 0:
+                        echo "hey";
+                }
+            }
+
+        }
+        else{
+            echo "studnt table is empty";
+        }
+    }
+
+    function deleteProf($choice){
+        $sql1 = "SELECT id, name, surname, age, title, department FROM PROFESSORS";
+        $result = $GLOBALS["conn"] -> query($sql1);
+
+        if ($result -> num_rows > 0){
+            while($row = $result ->fetch_assoc()){
+                switch($choice){
+                    case $choice == 1 && $row["title"] == "redovan":
+                        $sql_update = "DELETE FROM professors WHERE id=". $row["id"] ."";
+                        if($GLOBALS["conn"]->query($sql_update)){
+                            echo "prof deletition sucessful\n";
+                        }
+                        else{
+                            echo "prof deletition unsucessful\n";
+                        }
+                    break;
+                    case $choice == 0:
+                        echo "hey";
+                }
+            }
+
+        }
+        else{
+            echo "studnt table is empty";
+        }
+    }
+
     connect();
-    //insertIntoStudents("nedret", "becirovic", 24, "doktor");
-    //insertIntoProffesors("nedret", "becirovic", "doktor", 24, "doktorski");
-    selectFromStudent(1);
-    selectFromProfessors(1);
+    //insertIntoStudents("nedret4", "becirovic4", 19, "redovan");
+    //insertIntoProffesors("nedret6", "becirovic6", "docent", 66, "it");
+    //selectFromStudent(1);
+    //selectFromProfessors(1);
+    //selectAllFromStudents();
+    //selectAllFromProfessors();
+    //selectStudents(">20");
+    //updateStudent(1);
+    //updateProfessor(1);
+    //deleteStudent(1);
+    //deleteProf(1);
     mysqli_close($conn);
 ?>
